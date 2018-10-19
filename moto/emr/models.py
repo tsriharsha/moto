@@ -46,8 +46,6 @@ class FakeInstanceGroup(BaseModel):
         self.num_instances = instance_count
         self.role = instance_role
         self.type = instance_type
-        self.configurations = configurations
-        self.ebs_configuration = ebs_configuration
 
         self.creation_datetime = datetime.now(pytz.utc)
         self.start_datetime = datetime.now(pytz.utc)
@@ -281,6 +279,7 @@ class ElasticMapReduceBackend(BaseBackend):
         cluster = self.clusters[cluster_id]
         result_groups = []
         for instance_group in instance_groups:
+            print(str(instance_group))
             instance_group.pop('configurations', None)
             instance_group.pop('ebs_configuration', None)
             group = FakeInstanceGroup(**instance_group)
