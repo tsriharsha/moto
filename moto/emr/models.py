@@ -30,7 +30,7 @@ class FakeBootstrapAction(BaseModel):
 class FakeInstanceGroup(BaseModel):
 
     def __init__(self, instance_count, instance_role, instance_type,
-                 market='ON_DEMAND', name=None, id=None, bid_price=None):
+                 market='ON_DEMAND', configurations=None, ebs_configuration=None, name=None, id=None, bid_price=None):
         self.id = id or random_instance_group_id()
 
         self.bid_price = bid_price
@@ -46,6 +46,8 @@ class FakeInstanceGroup(BaseModel):
         self.num_instances = instance_count
         self.role = instance_role
         self.type = instance_type
+        self.configurations = configurations
+        self.ebs_configuration = ebs_configuration
 
         self.creation_datetime = datetime.now(pytz.utc)
         self.start_datetime = datetime.now(pytz.utc)
