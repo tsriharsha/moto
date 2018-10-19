@@ -279,11 +279,7 @@ class ElasticMapReduceBackend(BaseBackend):
         cluster = self.clusters[cluster_id]
         result_groups = []
         for instance_group in instance_groups:
-            for k in instance_group.keys():
-                if k.startswith('configurations'):
-                    instance_group.pop(k)
-                if k.startswith('ebs_configuration'):
-                    instance_group.pop(k)
+            instance_group = {k:v for k, v in d.keys() if not k.startswith('configurations') or k.startswith('ebs_configuration')}
             group = FakeInstanceGroup(**instance_group)
             self.instance_groups[group.id] = group
             cluster.add_instance_group(group)
