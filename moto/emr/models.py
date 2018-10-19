@@ -30,7 +30,7 @@ class FakeBootstrapAction(BaseModel):
 class FakeInstanceGroup(BaseModel):
 
     def __init__(self, instance_count, instance_role, instance_type,
-                 market='ON_DEMAND', configurations=None, ebs_configuration=None, name=None, id=None, bid_price=None):
+                 market='ON_DEMAND', name=None, id=None, bid_price=None):
         self.id = id or random_instance_group_id()
 
         self.bid_price = bid_price
@@ -281,6 +281,8 @@ class ElasticMapReduceBackend(BaseBackend):
         cluster = self.clusters[cluster_id]
         result_groups = []
         for instance_group in instance_groups:
+            instance_group.pop('configurations', None)
+            instance_group.pop('ebs_configuration', None)
             group = FakeInstanceGroup(**instance_group)
             self.instance_groups[group.id] = group
             cluster.add_instance_group(group)
